@@ -1,5 +1,5 @@
 // Phase 1 target
-let targetDate = new Date("2026-01-15T18:00:00-05:00"); // CDT
+let targetDate = new Date("2026-05-15T18:00:00-05:00"); // CDT
 
 // Phase 2 target & text
 const nextTargetDate = new Date("2027-01-06T12:00:00-06:00"); // CST
