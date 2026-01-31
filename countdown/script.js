@@ -1,17 +1,37 @@
-const targetDate = new Date("2026-05-15T18:00:00-05:00");
+// Phase 1 target
+let targetDate = new Date("2026-01-15T18:00:00-05:00"); // CDT
+
+// Phase 2 target & text
+const nextTargetDate = new Date("2027-01-06T12:00:00-06:00"); // CST
+const nextMainTitle   = "Countdown to Start of Session";
+const nextSubTitle    = "104th General Assembly";
+const nextFooter      = "Counting down to Wednesday, January 6, 2027, 12 PM CST";
 
 let prevValues = { days: null, hours: null, minutes: null, seconds: null };
+let isPhaseTwo = false;
+let finishedTimer = null;
 
 function updateCountdown() {
   const now = new Date();
   const diff = targetDate - now;
 
   if (diff <= 0) {
-    document.getElementById("days").textContent = "000";
-    document.getElementById("hours").textContent = "00";
+    // Lock at zero
+    document.getElementById("days").textContent    = "000";
+    document.getElementById("hours").textContent   = "00";
     document.getElementById("minutes").textContent = "00";
     document.getElementById("seconds").textContent = "00";
-    document.querySelector(".footer").textContent = "Session has ended";
+
+    // Apply red slow flicker to numbers only
+    document.querySelectorAll(".number").forEach(el => {
+      el.classList.add("finished");
+    });
+
+    // If first time hitting zero, start 15-second timer
+    if (!isPhaseTwo && !finishedTimer) {
+      finishedTimer = setTimeout(switchToPhaseTwo, 15000);
+    }
+
     return;
   }
 
@@ -27,7 +47,6 @@ function updateCountdown() {
     seconds: String(seconds).padStart(2, "0")
   };
 
-  // Update only changed values + trigger flicker
   Object.keys(updates).forEach(key => {
     const el = document.getElementById(key);
     if (updates[key] !== prevValues[key]) {
@@ -39,6 +58,25 @@ function updateCountdown() {
   });
 
   prevValues = updates;
+}
+
+function switchToPhaseTwo() {
+  // Remove red flicker
+  document.querySelectorAll(".number").forEach(el => {
+    el.classList.remove("finished");
+  });
+
+  // Switch to next phase
+  isPhaseTwo = true;
+  targetDate = nextTargetDate;
+
+  // Update text
+  document.querySelector(".main-title").textContent = nextMainTitle;
+  document.querySelector(".sub-title").textContent  = nextSubTitle;
+  document.querySelector(".footer").textContent     = nextFooter;
+
+  // Restart countdown immediately
+  updateCountdown();
 }
 
 setInterval(updateCountdown, 1000);
