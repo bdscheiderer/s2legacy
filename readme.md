@@ -1,3 +1,9 @@
+Website for S2 Legacy, LLC, dba Red Angus Labs.  
+Jefferson City, Missouri, USA.  
+Portfolio for various coding projects.  
+
+
+countdown.s2legacy.com:  
 Event countdown timer web app.  
 For now hardcoded to May 15, 2026, 6 pm.  
 At zero, will lock up all zeros for 15s then,   
